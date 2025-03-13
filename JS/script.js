@@ -9,3 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
+window.Search = function() {
+    const menu = document.getElementById("search-bar");
+    menu.classList.toggle("slide");
+};
+
