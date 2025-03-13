@@ -166,7 +166,7 @@ body {
 .images {
     display: flex;
     flex-direction: row;
-    margin: 12px 0 50px;
+    margin: 0px 0 50px;
 }
 .images img {
     width: 100%;
