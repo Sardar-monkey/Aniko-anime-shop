@@ -1,9 +1,10 @@
+import "../CSS/style.css";
+
 document.addEventListener("DOMContentLoaded", function() {
-    const currentPath = window.location.pathname; 
     const menuItems = document.querySelectorAll(".menu-item");
 
     menuItems.forEach(item => {
-        if (!item.classList.contains("dropdown-toggle") && item.href.includes(currentPath)) {
+        if (!item.classList.contains("dropdown-toggle")) {
             item.classList.add("active"); 
         }
     });
@@ -53,8 +54,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
     
+    
 });
+
+
 window.Search = function() {
     const menu = document.getElementById("search-bar");
     menu.classList.toggle("slide");
 };
+
