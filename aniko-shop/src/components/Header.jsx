@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import { ALLGOODS, HOME, NEWESTS, SALES } from "../utils/const";
 import { a } from "../axios-api/axiosinstamce";
@@ -28,6 +28,17 @@ function Header () {
 
     const getMenuItemClass = (path) => `menu-item${pathname === path ? " active" : ""}`;
 
+
+    const [searchQuery, setSearchQuery] = useState(""); 
+    const navigate = useNavigate();
+
+    const handleSearchSubmit = () => {
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+        }
+        Search()
+    };
+
     return (
         <header class="navbar">
         <div class="logo">Aniko</div>
@@ -44,8 +55,14 @@ function Header () {
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                   </svg>
                 </button>
-                <input type="text" placeholder="Поиск..." class="search-input" />
-                <button class="icon-btn" style={{borderRight: "2px solid"}}>
+                <input 
+                    type="text"
+                    placeholder="Поиск..."
+                    className="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)} 
+                />
+                <button class="icon-btn" style={{borderRight: "2px solid"}} onClick={handleSearchSubmit}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
                   </svg>

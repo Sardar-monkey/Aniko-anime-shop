@@ -5,12 +5,10 @@ import Header from "./components/Header.jsx";
 function App () {
   return (
     <>
-    <body>
       <Header />
       <main>
         <AppRouter />
       </main>
-    </body>
     </>
   );
 }
