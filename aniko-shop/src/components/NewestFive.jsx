@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import { a } from "../axios-api/axiosinstamce";
+import { Link } from "react-router-dom";
+import { PRODUCTPAGE } from "../utils/const";
+import { useCorsinaContext } from "../context/CorsinaContext";
 
-function NewestFive ({amount, buttons}) {
+function NewestFive ({amount, buttons, good}) {
 
     const [goods, SetGoods] = useState([]);
+
+    const { addToCorsina } = useCorsinaContext();
     
+    function handleAddToCorsina() {
+        addToCorsina(good);
+    }
+
     useEffect(() => {
         async function fetchGoods () {
             try {
@@ -24,7 +33,7 @@ function NewestFive ({amount, buttons}) {
     return (
         <div className="container">
             {newestFive.map((good, idx) => (
-                <div className="goods_card" key={good.id} style={{ '--position': idx + 1 }}>
+                <Link to = {PRODUCTPAGE.substring(0, PRODUCTPAGE.length - 3)+ good.id} className="goods_card" key={good.id} style={{ '--position': idx + 1 }}>
                 {good.discount === 0 ? <div class="discount"></div> : <div class="discount">-{good.discount}%</div>}
                 <img src={good.image} alt={good.name} />
                 <div className="good_info">
@@ -47,11 +56,13 @@ function NewestFive ({amount, buttons}) {
                         <span className="weight">Вес: {good.weight} гр</span>
                     </div>
                     <div class="buttons" style={{display: buttons}}>
-                        <a href="./product_page.html"><button class="more">Подробнее</button></a>
-                        <button class="basket">В корзину</button>
+                       <Link to = {PRODUCTPAGE.substring(0, PRODUCTPAGE.length - 3)+ good.id} class="more">Подробнее</Link>
+                           <button className="basket" onClick={handleAddToCorsina}>
+                            В корзину
+                            </button>
                     </div>
                 </div>
-                </div>
+                </Link>
             ))}
         </div>
     );

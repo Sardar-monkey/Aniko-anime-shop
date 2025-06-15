@@ -1,36 +1,62 @@
-function GoodsCard ({good}) {
-    return (
-                <div class="goods_card">
-                    {good.discount === 0 ? <div class="discount"></div> : <div class="discount">-{good.discount}%</div>}
-                    <img src={good.image} alt="" />
-                    <div class="good_info">
-                        <div class="base_info">
-                            <h3 class="name">{good.name}</h3>
-                            <span class="article">Артикул : {good.article}</span>
-                        </div>
+import { Link } from "react-router-dom";
+import { useCorsinaContext } from "../context/CorsinaContext";
+import { PRODUCTPAGE } from "../utils/const";
 
-                        <div class="info">
-                            <span class="price">Цена:
-                                {good.discount === 0 ? 
-                                <div class="price-disc">{good.price}</div> 
-                                : 
-                                <>
-                                <div class="price-disc">{good.price - (good.price * good.discount / 100)} ₸</div>
-                                <div class="regular disc">{good.price} ₸</div>
-                                </>
-                                }
-                            </span>
+function GoodsCard({ good }) {
+  const { addToCorsina } = useCorsinaContext();
 
-                            <span class="height">Высота: {good.height}см</span>
-                            <span class="weight">Вес: {good.weight}гр</span>
-                        </div>
-                        <div class="buttons">
-                            <a href="./product_page.html"><button class="more">Подробнее</button></a>
-                            <button class="basket">В корзину</button>
-                        </div>
-                    </div>
-                </div>
-    );
+  function handleAddToCorsina() {
+    addToCorsina(good);
+  }
+
+  const discountedPrice = good.price - (good.price * good.discount / 100);
+
+  return (
+    <div className="goods_card">
+      {/* Скидка */}
+      {good.discount === 0 ? (
+        <div className="discount"></div>
+      ) : (
+        <div className="discount">-{good.discount}%</div>
+      )}
+
+      {/* Картинка */}
+      <img src={good.image} alt={good.name} />
+
+      {/* Информация о товаре */}
+      <div className="good_info">
+        <div className="base_info">
+          <h3 className="name">{good.name}</h3>
+          <span className="article">Артикул: {good.article}</span>
+        </div>
+
+        <div className="info">
+          <span className="price">Цена:
+          {good.discount === 0 ? (
+            <div className="price-disc">{good.price} ₸</div>
+          ) : (
+            <>
+              <div className="price-disc">{discountedPrice} ₸</div>
+              <div className="regular disc">{good.price} ₸</div>
+            </>
+          )}
+          </span>
+          <span className="height">Высота: {good.height} см</span>
+          <span className="weight">Вес: {good.weight} гр</span>
+        </div>
+
+        {/* Кнопки */}
+        <div className="buttons">
+          <Link to={`${PRODUCTPAGE.slice(0, -3)}${good.id}`} className="more">
+            Подробнее
+          </Link>
+          <button className="basket" onClick={handleAddToCorsina}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default GoodsCard;
